@@ -1,85 +1,93 @@
-# SpicyChat: Health-Focused Recipe LLM Chatbot AI Assistant.
-
-
-
+SpicyChat: Health-Focused Recipe LLM Chatbot AI Assistant
 SpicyChat is an educational, spare-time project showcasing the end-to-end pipeline of creating a specialised Large Language Model (LLM) for health and nutrition-conscious recipe generation.
 
+It was successfully trained on UCL compute resources (an RTX 3090 Ti GPU) to demonstrate the efficiency and effectiveness of LoRA fine-tuning on large foundation models.
 
+Project Details
+Metric
 
-It was successfully trained on UCL compute resources (an RTX 3090 Ti GPU) to demonstrate the efficiency and effectiveness of LoRA fine-tuning on massive foundation models.
+Value
 
+Base Model
 
+Meta LLaMA 3.1 8B Instruct
 
-## Project Details
+Training Method
 
+LoRA (Low-Rank Adaptation)
 
+Training Device
 
-| Metric | Value |
+NVIDIA GeForce RTX 3090 Ti (24GB VRAM)
 
-| :--- | :--- |
+Training Time
 
-| **Base Model** | Meta LLaMA 3.1 8B Instruct |
+Approx. 26 minutes (for 3 epochs)
 
-| **Training Method** | LoRA (Low-Rank Adaptation) |
+Final Loss
 
-| **Training Device** | NVIDIA GeForce RTX 3090 Ti (24GB VRAM) |
+~0.7075 (Indicating successful specialisation)
 
-| **Training Time** | ~26 minutes (for 3 epochs) |
+Core Goal
 
-| **Final Loss** | ~0.7075 (Indicating successful specialization) |
+Adapt LLaMA to follow the strict structure: Ingredients → Structured Recipe.
 
-| **Core Goal** | Adapt LLaMA to follow the strict structure: Ingredients $\rightarrow$ Structured Recipe. |
+1. Full Replication Guide
+To replicate this project and run the model, you must complete the following setup steps.
 
+Data and Model Preparation
+Ensure your Python environment is active (source spicyVenv/bin/activate) and your Hugging Face token is exported.
 
+Script
 
-## Why There Is No Live Web Demo
+Source & Requirement
 
+Command
 
+Download & Parse Dataset
 
-This project cannot provide a live public web demo (via the Flask API) because of **university firewall restrictions and security policies**.
+Gets raw data from the VincentLimbach/Cooking Hugging Face repo.
 
+python scripts/download_and_parse_cooking.py
 
+Download LLaMA Model
 
-The compute node where the model runs (`mandarin-l.cs.ucl.ac.uk`) is protected by a firewall that blocks all external connections to arbitrary ports (like 5000), preventing the public internet from accessing the API.
+Gets model weights from the Meta/LLaMA 3.1 Hugging Face repo. Requires HF API Key/Access.
 
+python scripts/download_llama31.py
 
+Training
+This command executes the fine-tuning process. The nohup command ensures the job continues running reliably in the background, even if the user disconnects the SSH session (No Hang Up).
+
+# Run training in the background, saving output to training.log
+nohup python scripts/train_cooking_model.py > training.log 2>&1 &
+
+2. Testing Dev Product (No Live Web Demo)
+Due to the resource/cost requirements of running a live 16GB Large Language Model, providing a public web demo via the Flask API is not feasible. You can successfully mimic the full live experience by running the provided Command Line Interface (CLI) tool on any machine with sufficient GPU capacity.
 
 The final product is therefore demonstrated via the interactive Command Line Interface (CLI) tester.
 
+Usage: Interactive CLI Tester
+![Example1: API Verification](readme_images/screenshot1.png)
 
+This is the primary way to test the model's specialized output.
 
-## Key Files & Structure
+# Execute the CLI Tester (Must be run from the project root after VENV activation)
+python scripts/test_spicychat_cli.py
 
+Example Interaction (CLI Test)
+![Example2 : cURL Verification](readme_images/screenshot1.png)
 
+This demonstrates the core functional test of the final product: loading the LoRA adapter and generating a response.
 
-* `train_cooking_model.py`: The final, optimised Python script used for LoRA fine-tuning.
+API Verification (Internal)
+This shows the raw cURL command used during internal testing to verify the Flask API server was functional.
 
-* `test_spicychat_cli.py`: The interactive command-line tool used for running inference against the trained model weights.
+# Send a test request to the running API server (if temporarily active)
+curl -X POST [http://127.0.0.1:5000/generate](http://127.0.0.1:5000/generate) \
+     -H "Content-Type: application/json" \
+     -d '{"ingredients": "chicken breast, rice, onions, teriyaki sauce, chilli peppers"}'
 
-* `api_server.py`: The Flask server file, demonstrating the deployment architecture if firewall policies permitted external access.
+Example API Output (cURL Test)
 
-* `scripts/download_and_parse_cooking.py`: The script used to clean and format the recipe data for instruction tuning.
-
-
-
-## Usage
-
-
-
-To test the functionality of the fine-tuned model, run the CLI script (you must have the LLaMA 3.1 weights and the LoRA adapter in your directory structure):
-
-
-
-```bash
-
-python test_spicychat_cli.py
-
-Example Interaction
---- SpicyChat CLI Tester ---
-Model ready. Enter ingredients or 'quit'.
-You (Ingredients/Query): chicken breast, rice, soy sauce
-[SPICYCHAT] Generating response...
-SpicyChat Assistant:
---------------------------------------------------
-You can make a quick and healthy Chicken Teriyaki Stir-fry! Here is how: Marinate chicken breast cubes in a mixture of soy sauce and honey for 15 minutes. Stir-fry the chicken until cooked through. Add cooked rice and a blend of vegetables (like broccoli or carrots). Serve immediately.
---------------------------------------------------
+This is the JSON recipe generated by the model during the internal API test.

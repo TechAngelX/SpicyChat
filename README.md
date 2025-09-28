@@ -81,12 +81,13 @@ tail -f api_server_run.log
 
 and just Ctrl+C if you wish. Or leave it running and open another terminal window.
 
-Send a test request:
+Whilst server is running, send a test request, with your ingredients in comma seperated values, a sbelow:
 ```
 curl -X POST http://127.0.0.1:5000/generate \
 -H "Content-Type: application/json" \
 -d '{"ingredients": "chicken breast, rice, onions, teriyaki sauce, chilli peppers"}'
 ```
+And there you go - AI recipe content in natural language created from your own food prompts.
 
 ### 2. Interactive CLI Tester
 This returns the structured comma-seperated JSON recipe data.
@@ -103,7 +104,6 @@ python scripts/test_spicychat_cli.py
 jobs -l
 kill -9 <PID>
 ```
-
 If you get a huggingface permissions/access error, export your huggingface keys:
 ```
 export HF_TOKEN="your_huggingface_token_here"
@@ -112,9 +112,7 @@ then run the script again
 ```
 python scripts/test_spicychat_cli.py
 ```
-Now just enter ytour ingediants, comma seperated. I.e: onions, carrot
-
-
+Now just enter your ingredients, comma seperated. I.e: onions, carrot etc, and SpicyChat formulates ideas what you can make with your given ingredients.
 
 ## Notes:
 

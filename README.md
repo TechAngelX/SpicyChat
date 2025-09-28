@@ -33,7 +33,7 @@ Core Goal
 Adapt LLaMA to follow the strict structure: Ingredients → Structured Recipe.
 
 1. Full Replication Guide
-To replicate this project and run the model, you must complete the following setup steps.
+   To replicate this project and run the model, you must complete the following setup steps.
 
 Data and Model Preparation
 Ensure your Python environment is active (source spicyVenv/bin/activate) and your Hugging Face token is exported.
@@ -62,31 +62,37 @@ This command executes the fine-tuning process. The nohup command ensures the job
 # Run training in the background, saving output to training.log
 nohup python scripts/train_cooking_model.py > training.log 2>&1 &
 
+
 2. Testing Dev Product (No Live Web Demo)
-Due to the resource/cost requirements of running a live 16GB Large Language Model, providing a public web demo via the Flask API is not feasible. You can successfully mimic the full live experience by running the provided Command Line Interface (CLI) tool on any machine with sufficient GPU capacity.
+   Due to the resource/cost requirements of running a live 16GB Large Language Model, providing a public web demo via the Flask API is not feasible. You can successfully mimic the full live experience by running the provided Command Line Interface (CLI) tool on any machine with sufficient GPU capacity.
 
 The final product is therefore demonstrated via the interactive Command Line Interface (CLI) tester.
 
 Usage: Interactive CLI Tester
-![Example1: API Verification](readme_images/screenshot1.png)
-
 This is the primary way to test the model's specialized output.
 
 # Execute the CLI Tester (Must be run from the project root after VENV activation)
 python scripts/test_spicychat_cli.py
 
-Example Interaction (CLI Test)
-![Example2 : cURL Verification](readme_images/screenshot1.png)
 
-This demonstrates the core functional test of the final product: loading the LoRA adapter and generating a response.
+Example Interaction (CLI Test)
+![Example1: Verification using Command Line](readme_images/screenshot1.png)
+
+This is the primary way to test the model's specialised output.
+
+# Execute the CLI Tester (Must be run from the project root after VENV activation)
+python scripts/test_spicychat_cli.py
 
 API Verification (Internal)
+![Example2 : cURL Verification](readme_images/screenshot2.png)
+
 This shows the raw cURL command used during internal testing to verify the Flask API server was functional.
 
 # Send a test request to the running API server (if temporarily active)
-curl -X POST [http://127.0.0.1:5000/generate](http://127.0.0.1:5000/generate) \
-     -H "Content-Type: application/json" \
-     -d '{"ingredients": "chicken breast, rice, onions, teriyaki sauce, chilli peppers"}'
+curl -X POST [http://127.0.0.1:5000/generate](http://127.0.0.1:5000/generate) 
+-H "Content-Type: application/json" \
+-d '{"ingredients": "chicken breast, rice, onions, teriyaki sauce, chilli peppers"}'
+
 
 Example API Output (cURL Test)
 

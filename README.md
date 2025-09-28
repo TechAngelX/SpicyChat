@@ -72,14 +72,13 @@ Example cURL output:
 To run this, first start the server:
 ```
 nohup python api_server.py > api_server_run.log 2>&1 &
-tail -f api_server_run.log
 ```
-No need to, but you can monitor the session by typing:
-```
-tail -f api_server_run.log
-```
+The server is now running and waiting for your prompts.
 
-and just Ctrl+C if you wish. Or leave it running and open another terminal window.
+If you want to, you can monitor the session by typing the command below and just Ctrl+C to exit (the server will still be running). Or leave it running and open another terminal window, or ignore this altogether.
+```
+tail -f api_server_run.log
+```
 
 Whilst server is running, send a test request, with your ingredients in comma seperated values, a sbelow:
 ```
@@ -98,7 +97,7 @@ Run the CLI tester:
 python scripts/test_spicychat_cli.py
 ```
 
-16GB of VRAM is required! If you encounter an out-of-memory error, terminate the process:
+16GB of RAM is required! If you encounter an out-of-memory error, terminate the process:
 
 ```
 jobs -l
@@ -114,10 +113,10 @@ python scripts/test_spicychat_cli.py
 ```
 Now just enter your ingredients, comma seperated. I.e: onions, carrot etc, and SpicyChat formulates ideas what you can make with your given ingredients.
 
-## Notes:
+### Notes:
 
-### This project is intended for educational and test purposes, primarily for University testing or with access  to Hackathon temporary servers. You need a high performance GPU to run. 
+- This project is intended for educational and test purposes, primarily for University testing or with access  to Hackathon temporary servers. You need a high performance GPU to run. 
 
-### Demonstrates the full workflow of building a specialised LLM for recipe generation.
+- Demonstrates the full workflow of building a specialised LLM for recipe generation.
 
-### Ideal for hackathons, prototypes, or quick demos.
+- Ideal for hackathons, prototypes, or quick demos.

@@ -3,6 +3,7 @@ import json
 import re
 import os
 
+
 def parse_recipe_text(text):
     ingredients_match = re.search(r'\[RecipeIngredientParts\] \[(.*?)\]', text)
     ingredients = []
@@ -23,6 +24,7 @@ def parse_recipe_text(text):
 print("Loading dataset...")
 dataset = load_dataset("VincentLimbach/Cooking")
 print(f"Dataset loaded: {len(dataset['train'])} recipes")
+
 
 os.makedirs("./datasets", exist_ok=True)
 

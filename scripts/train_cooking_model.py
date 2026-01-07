@@ -18,6 +18,7 @@ model = AutoModelForCausalLM.from_pretrained(
     torch_dtype=torch.float16,
     device_map="auto"
 )
+
 tokenizer.pad_token = tokenizer.eos_token
 
 print("Setting up LoRA...")
